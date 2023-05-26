@@ -1,0 +1,17 @@
+{
+    "iter1q1a": "This is earnings briefing for ",
+    "iter1q1b": ", please summarise salient points. On the financials, please present details in json format",
+    "iter1q2":  "so what are the overall highlights, risks and concerns from the Q&A",
+    "iter1q3":  "how to you rate this company in terms of prospects? from 0 to 100, 100 being most optimistic",
+
+    "iter2q1a":  "This is summary for ",
+    "iter2q1b":  "This is summary for the same company the previous quarter",
+    "iter2q1c":  "Please highlight changes in the company over these 2 quarters, using information stated here only",
+
+    "iter3q1a":  "This is summary for ",
+    "iter3q1b":  "This is summary for peer company for the same quarter, make some comparison and state if the company fundamentals have imrpoved"
+
+
+
+
+}
