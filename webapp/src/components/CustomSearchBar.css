@@ -1,0 +1,6 @@
+.searchbar{
+    display:flex;
+    flex-direction: row;
+    width: 80vw;
+    align-items: center;
+}
