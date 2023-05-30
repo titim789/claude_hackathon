@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import Box from '@mui/material/Box';
 import { TextField, Button } from '@mui/material';
 import './CustomSearchBar.css';
@@ -12,6 +11,10 @@ const SearchBar = () => {
     useEffect(()=>{
         console.log(input)
     },[input])
+
+    const handleSearch = (event) => {
+      setInput(event.target.value)
+    }
 
     function handleSubmit(event){
         event.preventDefault();
@@ -28,6 +31,7 @@ const SearchBar = () => {
             id="input"
             name="input"
             placeholder='Enter Company Name'
+            onChange={handleSearch}
             sx={{padding:"5px"}}
             autoFocus
           />
