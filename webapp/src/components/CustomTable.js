@@ -1,5 +1,6 @@
 import {TableContainer, Paper, TableCell, TableHead, Table, TableRow, TableBody, Checkbox}  from '@mui/material';
 import { useState } from 'react';
+import CustomModal from './CustomModal';
 
 
 const CustomTable = ({columns, data}) =>{
@@ -7,6 +8,8 @@ const CustomTable = ({columns, data}) =>{
     const [checked, setChecked] = useState(Array.from({ length: data.length }, () => false));
     const [checkedData, setCheckedData] = useState([])
     const [headerChecked, setHeaderChecked] = useState(false)
+    const [modalOpen, setModalOpen] = useState(false)
+    const [selectedRow, setSelectedRow] = useState("")
 
     const handleCheck = (e, row, index) => {
         checked[index] = e.target.checked
@@ -29,15 +32,19 @@ const CustomTable = ({columns, data}) =>{
         }
     }
 
-    console.log(checked)
-    console.log(checkedData)
+    const handleRowClick = (row) => {
+        console.log(row)
+        setSelectedRow(row)
+        setModalOpen(true)
+    }
 
-    return <TableContainer component={Paper} style={{width: "80vw", margin:"auto"}}>
+
+    return (<div><TableContainer component={Paper} style={{width: "80vw", margin:"auto"}}>
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell padding='checkbox'><Checkbox checked={headerChecked} onChange={handleHeaderCheck}/></TableCell>
-                  <TableCell>Name</TableCell>
+                  <TableCell >Name</TableCell>
                   <TableCell>Age</TableCell>
                 </TableRow>
               </TableHead>
@@ -48,10 +55,10 @@ const CustomTable = ({columns, data}) =>{
                             <TableCell>
                             <Checkbox checked={checked[index]} onChange={(e) => handleCheck(e, row, index)} />
                             </TableCell>
-                            <TableCell>
+                            <TableCell onClick = {()=>handleRowClick(row)}>
                                 {row.name}
                             </TableCell>
-                            <TableCell>
+                            <TableCell onClick = {()=>handleRowClick(row)}>
                                 {row.age}
                             </TableCell>
                         </TableRow>
@@ -60,6 +67,9 @@ const CustomTable = ({columns, data}) =>{
               </TableBody>
             </Table>
           </TableContainer>
+          <CustomModal data={selectedRow} modalOpen={modalOpen} setModalOpen={setModalOpen} />
+          </div>
+          )
 }
 
 export default CustomTable
