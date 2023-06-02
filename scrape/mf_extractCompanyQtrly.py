@@ -59,13 +59,18 @@ def get_company_historical_transcripts(ticker, pagesLoad = 1):
     mime_type = files2upload[filename][1]
     existingFile_update(service, EarningsTranscriptList, Gfolder_id, mime_type, file_id)
     print('Updated list copied to G-Drive')    
-    driver.quit()
+    # driver.quit()
 
     # Returning the newly downloaded list to scrape content
     return result_df
 
 if __name__=='__main__':
+    cont=True
     ticker = input('Enter the ticker to scrape:').upper()
-    result_df = get_company_historical_transcripts(ticker)
-
+    while cont:
+        result_df = get_company_historical_transcripts(ticker)
+        ticker = input('Enter the ticker to continue to scrape, or <Enter> to end: ')
+        if ticker=='':
+            cont = False
+            driver.quit()
 

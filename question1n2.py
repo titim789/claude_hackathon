@@ -41,29 +41,20 @@ def count_tokens(string: str, text=''):
     print(f"{text} number of tokens: {num_tokens}")
     return num_tokens
 
-def get_previous_qtr_date(dateStr):
-    # Get previous quarter end date
-    mth = int(dateStr[4:6])
-    if mth in [9,12]:
-        prevQtr = f'{dateStr[:4]}0{str(mth-3)}30'
-    elif mth ==6:
-        prevQtr = f'{dateStr[:4]}0{str(mth-3)}31'
-    else: #mth=3
-        prevQtr = f'{str(int(dateStr[:4])-1)}1231'
-    prevQtrStr = datetime.datetime.strftime(pd.Timestamp(prevQtr), '%B %d, %Y')
-    return prevQtrStr, prevQtr
-
 def promptInstance(files, dateStr, qtrSelect):
-    fileDateStr = datetime.datetime.strftime(pd.Timestamp(dateStr), '%B %d, %Y')
-    cur_file = files[files['date']==fileDateStr].squeeze()
+    files['date'] = pd.to_datetime(files['date'])
+    cur_file = files[files['date']==pd.Timestamp(dateStr)].squeeze()
     print('cur_file',cur_file['date'])
+    # dateSeries =  pd.to_datetime(files['date'])
+    prevQtrDate = sorted(files['date'])[-2]
+    prevQtr = str(prevQtrDate.date()).replace('-','')
+
     if qtrSelect=='2':
         # Get previous quarter end date
-        prevQtrStr,prevQtr = get_previous_qtr_date(dateStr)
-        prev_file = files[files['date']==prevQtrStr].squeeze()
+        prev_file = files[files['date']==prevQtrDate].squeeze()
+        fileID_prev = cur_file['Ticker']+prevQtr
         print('prev_file',prev_file['date'])
         prev_textStr = prev_file['content']
-        fileID_prev = cur_file['Ticker']+prevQtr
         # Start Strings
         prev_start_idx = max(prev_textStr.find('Stock Advisor returns as of'),prev_textStr.find('See the 10 stocks'),prev_textStr.find('Prepared Remarks'))
         count_tokens(prev_textStr[prev_start_idx:], 'Previous Qtr')
@@ -166,31 +157,47 @@ def input_module():
 def main(ticker,dateStr,qtrSelect,modelSelect):
     files = df_db[(df_db['Ticker']==ticker)]
     print(files)
+
+
+
     fileID,fileID_prev,prompt1c,prompt1p,prompt2c = promptInstance(files,dateStr,qtrSelect)
 
     print(f'Running on model: {modelSelect}')
     # Run the stated quarter first
     start_time = time.time()
-    resp_1c = ClaudeAPI(prompt1c, 10000, modelSelect)['completion']
+    response = ClaudeAPI(prompt1c, 10000, modelSelect)
+    resp_1c = response['completion']
     time1 = time.time()
     print(f'Elapsed time for Claude: {(time1-start_time):.2f} seconds')
+    # pp.pprint(resp_1c)
+    if response['stop_reason']!='stop_sequence':
+        print(response['stop_reason'])
+        print('Error in Claude API, exiting...')
+        sys.exit()
 
-    if qtrSelect=='1':
+    if qtrSelect=='1' or qtrSelect==1:
         resp_ques2=''
         resp2json = response_to_db(resp_1c,resp_ques2, fileID)
         print(f'Claude response saved for: {fileID}')
 
-    elif qtrSelect=='2':
+    elif qtrSelect=='2' or qtrSelect==2:
         # Check if Claude had already analysed previous quarter 
         if fileID_prev in Q1_DB_hist.keys():
             resp_1p = Q1_DB_hist[fileID_prev]
             print('Previous qtr output from Claude already existed, proceed to compare')
         else:
             # No previous saved Claude response
+            print('No previous Claude input - feeding previous Qtr transcript')
             start_time = time.time()
-            resp_1p = ClaudeAPI(prompt1p, 10000, modelSelect)['completion']
+            response = ClaudeAPI(prompt1p, 10000, modelSelect)
+            resp_1p = response['completion']
             time1 = time.time()
             print(f'Elapsed time for Claude: {(time1-start_time):.2f} seconds')
+            # pp.pprint(resp_1p)
+            if response['stop_reason']!='stop_sequence':
+                print(response['stop_reason'])
+                print('Error in Claude API, exiting...')
+                sys.exit()
             # Save previous quarter
             resp_ques2=''
             resp2json = response_to_db(resp_1p,resp_ques2, fileID_prev)
@@ -199,13 +206,19 @@ def main(ticker,dateStr,qtrSelect,modelSelect):
         # Taking an API break
         time.sleep(10)
         # Combining previous and current to compare
-        print('Running next question ...')
+        print('Feeding consolidated prompt for comparison question ...')
         comboPrompt = prompt1c+resp_1c+prompt1p+resp_1p+prompt2c
         count_tokens(comboPrompt)
         start_time = time.time()
-        resp_combo = ClaudeAPI(comboPrompt, 10000, modelSelect)['completion']
+        response = ClaudeAPI(comboPrompt, 10000, modelSelect)
+        resp_combo = response['completion']
         time1 = time.time()
         print(f'Elapsed time for Claude: {(time1-start_time):.2f} seconds')
+        # pp.pprint(resp_combo)
+        if response['stop_reason']!='stop_sequence':
+            print(response['stop_reason'])
+            print('Error in Claude API, exiting...')
+            sys.exit()
         resp2json = response_to_db(resp_1c,resp_combo, fileID)
 
         print(f'Completed for {ticker} on the 2 questions')
