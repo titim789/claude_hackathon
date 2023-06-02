@@ -44,8 +44,9 @@ const CustomTable = ({columns, data}) =>{
               <TableHead>
                 <TableRow>
                   <TableCell padding='checkbox'><Checkbox checked={headerChecked} onChange={handleHeaderCheck}/></TableCell>
-                  <TableCell >Name</TableCell>
-                  <TableCell>Age</TableCell>
+                  <TableCell >Company Name</TableCell>
+                  <TableCell>Rating</TableCell>
+                  <TableCell>Remarks</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -56,10 +57,13 @@ const CustomTable = ({columns, data}) =>{
                             <Checkbox checked={checked[index]} onChange={(e) => handleCheck(e, row, index)} />
                             </TableCell>
                             <TableCell onClick = {()=>handleRowClick(row)}>
-                                {row.name}
+                                {row[columns[0]]}
                             </TableCell>
                             <TableCell onClick = {()=>handleRowClick(row)}>
-                                {row.age}
+                                {row[columns[1]]}
+                            </TableCell>
+                            <TableCell onClick = {()=>handleRowClick(row)}>
+                                {row[columns[2]]}
                             </TableCell>
                         </TableRow>
                     ))

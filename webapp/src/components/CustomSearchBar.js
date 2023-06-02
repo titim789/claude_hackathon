@@ -24,26 +24,26 @@ const SearchBar = () => {
 
     return(
         <Box component="form" onSubmit={handleSubmit} display="flex" sx={{justifyContent:"center"}} noValidate>
-            <div className = "searchbar">
-        <TextField
-            margin="normal"
-            fullWidth
-            id="input"
-            name="input"
-            placeholder='Enter Company Name'
-            onChange={handleSearch}
-            sx={{padding:"5px"}}
-            autoFocus
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            className='searchbutton'
-            sx={{padding:"5px", height: "40px"}}
-          >
-            Search
-          </Button>
-        </div>
+          <div className = "searchbar">
+            <TextField
+                margin="normal"
+                fullWidth
+                id="input"
+                name="input"
+                placeholder='Enter Company Name/Ticker Code'
+                onChange={handleSearch}
+                sx={{padding:"5px"}}
+                autoFocus
+              />
+            <Button
+              type="submit"
+              variant="contained"
+              className='searchbutton'
+              sx={{padding:"5px", height: "40px"}}
+            >
+              Search
+            </Button>
+          </div>
         </Box>
     )
 }
