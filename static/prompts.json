@@ -1,17 +1,23 @@
 {
-    "iter1q1a": "This is earnings briefing for ",
-    "iter1q1b": ", please summarise salient points. On the financials, please present details in json format",
-    "iter1q2":  "so what are the overall highlights, risks and concerns from the Q&A",
-    "iter1q3":  "how to you rate this company in terms of prospects? from 0 to 100, 100 being most optimistic",
+    "q1a": "Within the <current> tag below is current quarterly earnings transcript for ",
+    "q1b": "On the <previous> tag is the transcript for previous quarter of the company:",
+    "s1a": "Analyze the 2 transcripts above and accurately extract relevant facts. Do not make up any information that is not supported by the transcripts.",
+    "s1b": "Analyze the transcript above and accurately extract relevant facts. Do not make up any information that is not supported by the transcripts.",
+    "q1c": "Extract financial details within <current> tag in JSON format into <financials> tag, enclose both keys and values with double quotation marks.",
+    "q1c2":"Fact check all details in your numbers stated above against the original transcript to ensure accuracy.",
+    "q1d": "Under <catalyst> tag, put in major product announcements, roadmap or catalyst ahead.",
+    "q1e": "From the Q&A section in current quarterly transcript, extract risks and concerns raised and put in <qa> tag.",
+    "q1f": "Under <rating> tag, rate this company in terms of prospects from 0 to 100, 100 being most optimistic",
+    "q1g": "Under <overall> tag, give an overall view on the company, ensure all your statements are supported by the transcripts and not information outside of this.",
+    "q1h": "For current quarter, give a 1-sentence highlight or summary of the company.",
+    "q1h2": "Depending on your optimism, write the sentence in high temperature tone if very optimistic, and low temperature if pessimistic. Put in <title> tag.",
+    
+    "s2a": "Within the <previous> tag below is previous quarterly earnings transcript for the same company:",
+    "s2a2": "Above are earnings transcript for current and previous quarters for:",
 
-    "iter2q1a":  "This is summary for ",
-    "iter2q1b":  "This is summary for the same company the previous quarter",
-    "iter2q1c":  "Please highlight changes in the company over these 2 quarters, using information stated here only",
-
-    "iter3q1a":  "This is summary for ",
-    "iter3q1b":  "This is summary for peer company for the same quarter, make some comparison and state if the company fundamentals have imrpoved"
-
-
-
+    "s2b": "Analyze the transcript and accurately extract relevant facts. Do not make up any information that is not supported by the transcripts.",
+    "q2a": "Accurately extract and compare available company's financials between current and previous quarters. Present in JSON format and put in <compfin> tag. Enclose both keys and values with double quotation marks.",
+    "q2b": "Find important qualitative changes from previous to current quarters and put in <change> tag.",
+    "q2c": "Do you think the company fundamentals have: Improved; Unchanged; or Deteriorated ? Answer in <rate2> tag. Give your reasons in <reasons> tag."
 
 }
