@@ -1,0 +1,1 @@
+//To-do add a card to display the decription of the risks and concerns of the company

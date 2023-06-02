@@ -1,0 +1,1 @@
+// To-do add a card to contain the content of the key points from the management briefing
