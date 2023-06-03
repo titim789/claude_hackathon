@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { TextField, Button } from '@mui/material';
-import './CustomSearchBar.css';
+import './css/CustomSearchBar.css';
 
 
 const SearchBar = () => {

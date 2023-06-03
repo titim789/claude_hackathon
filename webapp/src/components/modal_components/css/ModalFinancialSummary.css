@@ -1,0 +1,21 @@
+.financialsummary {
+    padding-left: 2%;
+    padding-right: 2%;
+}
+.financialsummary h3 {
+    text-decoration: underline;
+    margin-top: 1%;
+    margin-bottom: 0;
+}
+
+.financialsummary table {
+    width: 50%;
+}
+
+.financialsummary th {
+    text-align: left;
+}
+
+.financialsummary td {
+    padding-left: 2%;
+}

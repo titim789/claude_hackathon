@@ -1,0 +1,11 @@
+.riskandconcerns{
+    padding-left: 2%;
+    padding-right: 2%;
+    width: 70vw;
+}
+
+.riskandconcerns h3 {
+    text-decoration: underline;
+    margin-top: 1%;
+    margin-bottom: 0;
+}

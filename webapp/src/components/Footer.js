@@ -1,5 +1,5 @@
 import powerByIcon from "../assets/images/powered_by_anthropic_transparent.png"
-import "./Footer.css"
+import "./css/Footer.css"
 
 const Footer = () => {
     return (
