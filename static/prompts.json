@@ -18,6 +18,16 @@
     "s2b": "Analyze the transcript and accurately extract relevant facts. Do not make up any information that is not supported by the transcripts.",
     "q2a": "Accurately extract and compare available company's financials between current and previous quarters. Present in JSON format and put in <compfin> tag. Enclose both keys and values with double quotation marks.",
     "q2b": "Find important qualitative changes from previous to current quarters and put in <change> tag.",
-    "q2c": "Do you think the company fundamentals have: Improved; Unchanged; or Deteriorated ? Answer in <rate2> tag. Give your reasons in <reasons> tag."
+    "q2c": "Do you think the company fundamentals have: Improved; Unchanged; or Deteriorated ? Answer in <rate2> tag. Give your reasons in <reasons> tag.",
+    "q3":  "We need to do a summary and peer comparison for these companies from the same quarter. ",
+    "q3a": "Here are the earnings briefings for the following companies: ",
+    "q3b": "Task 1, quantitative comparison. Please compare and contrast the company's financials for the quarter. Make sure you title this section as Financials. Please categorise this section between <financials> tag in JSON format.",
+    "q3c":  "Task 2, qualitative comparison. How do the key challenges and risks discussed by each company differ? What are the unique threats facing each business? Title this section challenges. Please categorise this section between <challenges> tags in json format.",
+    "q3d":  "Task 3, Compare the product roadmaps and growth strategies discussed on each call. Which company has the most compelling vision for innovation and capturing new opportunities? Title this section growth. Please categorise this section between <growth> tags in JSON format.",
+    "q3e": "Task 4, If macroeconomic conditions worsen, which company is in the best position to weather a downturn? Evaluate how recession proof each business is.Title this section as resilience. Please categorise this section between <resilience> tags in JSON format.",
+    "q3f": "Task 5, Discuss any differences in company culture and management philosophies, only from what can be seen and inferred through the earnings calls. Which leadership team appears to be most effective? Title this section as leadership. Please categorise this section between <leadership> tags in JSON format.",
+    "q3g": "Task 6, Identify any differences in tone or enthusiasm from management on these calls. Did one leadership team seem more confident or optimistic in discussions about the state and future of the business?Title this section as insider outlook. Please categorise this section between <insider> tags in JSON format.",
+    "q3h": "Task 7, Finally, give an overall ranking of the three companies. Display this at the bottom. Please categorise this section between <ranking> tags in JSON format."
+
 
 }
