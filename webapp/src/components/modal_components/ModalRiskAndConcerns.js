@@ -7,7 +7,7 @@ const ModalRiskAndConcerns = ({data}) => {
     return (
         <div className="riskandconcerns">
             <h3>Ricks & Concerns</h3>
-            <p>{data.risk_and_concerns}</p>
+            <p>{data.qa}</p>
         </div>
     )
 }

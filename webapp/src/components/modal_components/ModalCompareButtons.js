@@ -3,11 +3,12 @@ import ModalButtonPrevQuarterCompare from "./ModalButtonPrevQuarterCompare"
 import ModalButtonPeersCompare from "./ModalButtonPeersCompare"
 
 
-const ModalCompareButton = () => {
+const ModalCompareButton = ({setComparing}) => {
+
     return (
         <Stack spacing={2} direction="row" style={{padding: "2%"}}>
-            <ModalButtonPrevQuarterCompare data={"PREV_QUARTER_DATA"}/>
-            <ModalButtonPeersCompare data={"PEERS_DATA"}/>
+            {/* <ModalButtonPrevQuarterCompare data={"PREV_QUARTER_DATA"}/> */}
+            <ModalButtonPeersCompare setComparing={setComparing}/>
         </Stack>
     )
 }

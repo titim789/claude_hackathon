@@ -9,14 +9,14 @@ const ModalHeader = ({data}) => {
         <div className="modalheader">
             <h1>Investment Apprentice</h1>
             <div className="modaltitle">
-                <h2>{data.ticket}: {data.company}</h2>
+                <h2>{data.ticker}: {data.company}</h2>
                 <div className="rating">
                     <p><b>Rating:</b> {data.rating}/100</p>
-                    <p><b>Claude assessment:</b> {data.assessment}</p>
+                    {data.rate2?<p><b>Claude assessment:</b> {data.rate2}</p>:<></>}
                 </div>
             </div>
             <div className="modalsubtitle">
-                {data.remarks}
+                {data.overall}
             </div>
         </div>
     )

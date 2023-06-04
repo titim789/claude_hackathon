@@ -5,8 +5,11 @@ import "./css/ModalKeyPoints.css"
 const ModalKeyPoints =({data}) => {
     return(
         <div className="keypoints">
-            <h3>Key Points from Management Briefing:</h3>
-            <p>{data.key_points}</p>
+            <h3>Key Points from Management Briefing</h3>
+            <ul>
+                {data.title?<li>{data.title}</li>:<></>}
+                {data.catalyst?<li>{data.catalyst}</li>:<></>}
+            </ul>
         </div>
     )
 }

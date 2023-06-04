@@ -1,0 +1,21 @@
+.modalcomparecontent{
+    min-height: 40vh;
+}
+
+.modalcomparedetails{
+    display: flex;
+    flex-direction: row;
+    padding: 3%;
+}
+
+.modalcomparedetails h3{
+    text-decoration: underline;
+}
+
+.company1 {
+    padding: 5px;
+}
+
+.company1 {
+    padding: 5px;
+}

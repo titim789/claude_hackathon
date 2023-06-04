@@ -1,23 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 
-function MyComponent() {
-  const fetchData = () => {
-    axios.get('/api/data')
-      .then(response => {
-        console.log(response.data);
-        // Process the received JSON data here
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  };
+const SERVER_DOMAIN = 'http://localhost:5000'
+const COMPANY_INFO_ENPOINT = `${SERVER_DOMAIN}/api/getCompanyInfo`
+const COMPARE_PEERS_ENPOINT = `${SERVER_DOMAIN}/api/getComparePeers`
 
-  return (
-    <div>
-      <button onClick={fetchData}>Fetch Data</button>
-    </div>
-  );
-}
-
-export default MyComponent;
+export const getCompanyInfo = () => axios.get(COMPANY_INFO_ENPOINT)
+export const getComparePeers = () => axios.get(COMPARE_PEERS_ENPOINT)

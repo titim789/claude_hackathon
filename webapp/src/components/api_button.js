@@ -3,7 +3,7 @@ import axios from 'axios';
 
 function APIButton() {
   const fetchData = () => {
-    axios.get('http://localhost:5000/q1')
+    axios.get('http://localhost:5000/api/getCompanyInfo')
       .then(response => {
         console.log(response.data);
         // Process the received JSON data here

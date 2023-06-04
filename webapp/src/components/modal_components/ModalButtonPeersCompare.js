@@ -2,10 +2,10 @@
 
 import { Button } from "@mui/material"
 
-const ModalButtonPeersCompare = ({data}) => {
+const ModalButtonPeersCompare = ({setComparing}) => {
 
     const handleClick = () => {
-        console.log(data)
+        setComparing(true)
     }
 
     return(

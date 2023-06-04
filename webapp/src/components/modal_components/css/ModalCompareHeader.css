@@ -1,0 +1,6 @@
+.modalsearchbar{
+    display:flex;
+    flex-direction: row;
+    width: 50vw;
+    align-items: center;
+}
