@@ -12,6 +12,7 @@ dbfolder = './db/'
 EarningsTranscriptList = './db/EarningsTranscriptList.csv'
 EarningsTranscriptDB = './db/EarningsTranscript.db'
 q1_DB = './db/question1.json'
+q3_DB = './db/question3.json'
 conn = sqlite3.connect(EarningsTranscriptDB)
 
 #### Anthropic ####
@@ -222,7 +223,147 @@ def main(ticker,dateStr,qtrSelect,modelSelect):
         resp2json = response_to_db(resp_1c,resp_combo, fileID)
 
         print(f'Completed for {ticker} on the 2 questions')
+        
+        
+##sid##
+#for the case of peer comps, only 2 company's earnings to be compared
+def promptInstance2(file,file2):
+    company1,company2 = file['company'],file2['company']
+    qtr1,qtr2 = file['qtr'],file2['qtr']
+    year1,year2 = file['year'],file2['year']
+    textStr1,textStr2 = file['content'],file2['content']
+    filedate = str(pd.to_datetime(file['date']).date()).replace('-','')
+    fileID = file['company']+','+file2['company']+','+filedate
+
+    # Start String
+    start_idx1 = max(textStr1.find('Stock Advisor returns as of'),textStr1.find('See the 10 stocks'),textStr1.find('Prepared Remarks'))
+    start_idx2 = max(textStr2.find('Stock Advisor returns as of'),textStr2.find('See the 10 stocks'),textStr2.find('Prepared Remarks'))
+        
+    prompt=f"{anthropic.HUMAN_PROMPT} {human['q3']}{human['q3a']}{company1},{company2}.\
+    Earnings briefing for{company1} is in the <Transcript1> tag: <Transcript1>{textStr1[start_idx1:]}</Transcript1>\
+    Earnings briefing for{company2} is in the <Transcript2> tag: <Transcript2>{textStr2[start_idx2:]}</Transcript2>\
+    \n{human['q3b']}. {human['q3c']} {human['q3d']} {human['q3e']}\
+    {human['q3f']}{human['q3g']}{human['q3h']}    \
+    {anthropic.AI_PROMPT}"
+
+    num_tokens = count_tokens(prompt)    
+    if num_tokens>=100000:
+        print('Total number of tokens exceeded the model limit!\nStopping the process now.')
+        sys.exit()
+        
+    return fileID, prompt
+
+##sid##
+
+
+##sid##
+#Creating prompt to be fed to Claude, for the instance of 3 company's earnings to be compared
+#returns an id, and the generated prompt 
+def promptInstance3(file,file2,file3):
+    company1,company2,company3 = file['company'],file2['company'],file3['company']
+    qtr1,qtr2,qtr3 = file['qtr'],file2['qtr'],file3['qtr']
+    year1,year2,year3 = file['year'],file2['year'],file3['year']
+    textStr1,textStr2,textStr3 = file['content'],file2['content'],file3['content']
+    filedate = str(pd.to_datetime(file['date']).date()).replace('-','')
+    fileID = file['company']+','+file2['company']+','+file3['company']+','+filedate
+
+    # Start String
+    start_idx1 = max(textStr1.find('Stock Advisor returns as of'),textStr1.find('See the 10 stocks'),textStr1.find('Prepared Remarks'))
+    start_idx2 = max(textStr2.find('Stock Advisor returns as of'),textStr2.find('See the 10 stocks'),textStr2.find('Prepared Remarks'))
+    start_idx3 = max(textStr3.find('Stock Advisor returns as of'),textStr3.find('See the 10 stocks'),textStr3.find('Prepared Remarks'))
+
+        
+    #TO add year and period
+    prompt=f"{anthropic.HUMAN_PROMPT} {human['q3']}{human['q3a']}{company1},{company2},{company3}.\
+    Earnings briefing for{company1} is in the <Transcript1> tag: <Transcript1>{textStr1[start_idx1:]}</Transcript1>\
+    Earnings briefing for{company2} is in the <Transcript2> tag: <Transcript2>{textStr2[start_idx2:]}</Transcript2>\
+    Earnings briefing for{company3} is in the <Transcript3> tag: <Transcript3>{textStr3[start_idx3:]}</Transcript3>\
+    \n{human['q3b']}. {human['q3c']} {human['q3d']} {human['q3e']}\
+    {human['q3f']}{human['q3g']}{human['q3h']}    \
+    {anthropic.AI_PROMPT}"
+
+    num_tokens = count_tokens(prompt)    
+    if num_tokens>=100000:
+        print('Total number of tokens exceeded the model limit!\nStopping the process now.')
+        sys.exit()
+        
+    return fileID, prompt
+
+##sid##
+
+
+##sid##
+#function organising and storing response from claude into a json file for case of peer comps
+def response_to_db2(response, fileID):
+    Q3_DB_hist = json.load(open(q3_DB, 'r'))
+
+    html = f"""{response}"""
+    soup = BeautifulSoup(html, 'html.parser')
+
+    financials = soup.find('financials').text.strip()
+    challenges = soup.find('challenges').text.strip()
+    growth = soup.find('growth').text.strip()
+    resilience = soup.find('resilience').text.strip()
+    leadership = soup.find('leadership').text.strip()
+    insider = soup.find('insider').text.strip()
+    ranking = soup.find('ranking').text.strip()
+    
+
+    Q3_DB_hist[fileID] = dict({'financials': financials,
+                                'challenges': challenges,
+                                'growth': growth,
+                                'resilience': resilience,
+                                'leadership': leadership,
+                                'insider' : insider,
+                                'ranking' : ranking
+                                })
+
+    with open(q3_DB, 'w') as f:
+        json.dump(Q3_DB_hist, f)
+        print('Records save to: ', q3_DB)
+
+    return Q3_DB_hist[fileID]
+##sid##
+
+##sid##
+#Input function for cross company comparison
+def peer_input_funct():
+    ticker = input('Enter the first Ticker: ').upper()
+    ticker2 = input('Enter the second Ticker: ').upper()
+    ticker3 = input('Enter the third Ticker: ').upper()
+    dateStr = input('Enter the quarter end date in <YYYYmmdd> format, (e.g. 20230331) : ')
+    return ticker,ticker2,ticker3,dateStr
+##sid##
+
+##sid##
+def peer_comp(ticker,ticker2,ticker3,dateStr):
+    print("Running peer comps function")
+    fileDateStr = datetime.datetime.strftime(pd.Timestamp(dateStr), '%B %d, %Y')
+    file = df_db[(df_db['Ticker']==ticker) & (df_db['date']==fileDateStr)].squeeze()
+    file2 = df_db[(df_db['Ticker']==ticker2) & (df_db['date']==fileDateStr)].squeeze()
+    file3 = df_db[(df_db['Ticker']==ticker3) & (df_db['date']==fileDateStr)].squeeze()
+    #selecting between 2 company and 3 company comparison based on input
+    if len(file)>0 and len(file2)>0 and len(file3)>0:
+        fileID, prompt = promptInstance3(file,file2,file3)
+    else:
+        fileID, prompt = promptInstance2(file,file2)
+    
+    print('Available Models: "claude-v1.3-100k", "claude-v1-100k", "claude-instant-v1-100k"')
+    print('Running on model: claude-v1.3-100k')
+    resp3 = ClaudeAPI(prompt, 100000, "claude-v1.3-100k")
+    resp2json = response_to_db2(resp3['completion'], fileID)
+    print(f"Completed generating and storing peer comps Claude response for {ticker},{ticker2},{ticker3}.")
+    
+    #maybe we can use the returned fileID to fetch from the json?
+    return fileID
+##sid## 
+        
 
 if __name__=='__main__':
     ticker,dateStr,qtrSelect,modelSelect = input_module()
     main(ticker,dateStr,qtrSelect,modelSelect)
+    #Optional runnning of peer comps, the boolean below can be replace with connection to a button click or something later
+    peer_comps = False
+    if peer_comps:
+        ticker,ticker2,ticker3,dateStr = peer_input_funct()
+        fileID = peer_comp(ticker,ticker2,ticker3,dateStr)
