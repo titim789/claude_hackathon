@@ -12,7 +12,7 @@ Investment Apprentice (IA) is a tool that helps investment managers and analysts
 
 IA is a tool that can extract useful and important messages from investment articles, such as earnings transcripts, quickly and accurately. It does this by processing natural language and identifying key points, risks, and concerns by investors. More importantly, IA is impartial and objective, providing investment professionals with actionable insights to help them make better investment decisions.
 
-IA delivers results through a website and daily emails to users. The emails contain links to access the outputs on the site. Investment professionals can use IA to quickly identify key insights from earnings transcripts, such as trends, risks, and changes from the previous quarter. IA also provides a sentiment rating for each company based on the information provided, allowing investment professionals to quickly gauge the overall sentiment around a company.
+IA delivers results through a website. Investment professionals can use IA to quickly identify key insights from earnings transcripts, such as trends, risks, and changes from the previous quarter. IA also provides a sentiment rating for each company based on the information provided, allowing investment professionals to quickly gauge the overall sentiment around a company.
 
 IA runs in the background and is activated when new transcripts become available. Its results are stored in a database, so the process does not have to repeat when users need information. This also reduces latency and ensures that investment professionals have access to the latest insights.
 
