@@ -4,6 +4,7 @@ import CustomSearchBar from './CustomSearchBar';
 import CustomTable from './CustomTable';
 import Header from './Header';
 import Footer from './Footer';
+import APIButton from './api_button';
 
 const FrontPage = ({temp, setTemp}) => {
     const [toggle, setToggle] = useState(false)
@@ -33,6 +34,7 @@ const FrontPage = ({temp, setTemp}) => {
             THIS IS THE {temp}
             <Button onClick={handleClick} variant="outlined">
             Click Me</Button>
+            <APIButton/>
             <Footer/>
         </div>
     )
