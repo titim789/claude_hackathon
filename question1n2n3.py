@@ -16,8 +16,8 @@ q3_DB = './db/question3.json'
 conn = sqlite3.connect(EarningsTranscriptDB)
 
 #### Anthropic ####
-claude_key_kl = json.load(open('../Keys/claude_key_kl.json'))['claude_key_kl']
-client = anthropic.Client(api_key=claude_key_kl)
+claude_key = json.load(open('../claude_key.json'))
+client = anthropic.Client(api_key=claude_key)
 human = json.load(open('./static/prompts.json'))
 
 def get_document_count():

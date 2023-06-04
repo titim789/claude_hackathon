@@ -6,7 +6,7 @@ import json
 import pandas as pd
 import sqlite3
 from helper.seleniumDriver import driver,WebDriverWait,EC,By
-from helper.copy2Gdrive import existingFile_update,service, files2upload, Gfolder_id
+# from helper.copy2Gdrive import existingFile_update,service, files2upload, Gfolder_id
 
 dbfolder = './db/'
 EarningsTranscriptList = './db/EarningsTranscriptList.csv'
@@ -96,11 +96,11 @@ def main():
             insert_file(Ticker,company,qtr,year,date,link,num_line,num_text,content)
             time.sleep(3)
         ## Copy to G-drive
-        filename = 'EarningsTranscript.db'
-        file_id = files2upload[filename][0]
-        mime_type = files2upload[filename][1]
-        existingFile_update(service, dbfolder+filename, Gfolder_id, mime_type, file_id)
-        print('Updated database copied to G-Drive')
+        # filename = 'EarningsTranscript.db'
+        # file_id = files2upload[filename][0]
+        # mime_type = files2upload[filename][1]
+        # existingFile_update(service, dbfolder+filename, Gfolder_id, mime_type, file_id)
+        # print('Updated database copied to G-Drive')
 
     else:
         print('Database is already updated!')

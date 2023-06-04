@@ -4,7 +4,7 @@
 import time
 import pandas as pd
 from helper.seleniumDriver import driver,WebDriverWait,EC,By
-from helper.copy2Gdrive import existingFile_update,service, files2upload, Gfolder_id
+# from helper.copy2Gdrive import existingFile_update,service, files2upload, Gfolder_id
 
 ########################
 # Select number of pages to 'Load More', keep minimmun 1
@@ -72,9 +72,9 @@ def scrape_earningsList():
         df.to_csv(EarningsTranscriptList, index=False)
     filename = 'EarningsTranscriptList.csv'
     # Create mirror image to G-Drive
-    file_id = files2upload[filename][0]
-    mime_type = files2upload[filename][1]
-    existingFile_update(service, EarningsTranscriptList, Gfolder_id, mime_type, file_id)
+    # file_id = files2upload[filename][0]
+    # mime_type = files2upload[filename][1]
+    # existingFile_update(service, EarningsTranscriptList, Gfolder_id, mime_type, file_id)
     print('Updated list copied to G-Drive')
     driver.quit()
     print('Completed scrapeList')

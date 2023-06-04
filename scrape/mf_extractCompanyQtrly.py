@@ -5,9 +5,9 @@ Note: This is just to extract the links - not downloading the contents
 """
 import time
 import pandas as pd
-import requests, sys
+import requests
 from helper.seleniumDriver import driver,By
-from helper.copy2Gdrive import existingFile_update,service, files2upload, Gfolder_id
+# from helper.copy2Gdrive import existingFile_update,service, files2upload, Gfolder_id
 
 EarningsTranscriptList = './db/EarningsTranscriptList.csv'
 loadMore = '//*[@id="quote-earnings-transcripts"]/button'
@@ -54,11 +54,11 @@ def get_company_historical_transcripts(ticker, pagesLoad = 1):
     df = pd.concat([result_df, df])
     df.drop_duplicates(keep='first', inplace=True, ignore_index=True)
     df.to_csv(EarningsTranscriptList, index=False)
-    filename = 'EarningsTranscriptList.csv'
-    file_id = files2upload[filename][0]
-    mime_type = files2upload[filename][1]
-    existingFile_update(service, EarningsTranscriptList, Gfolder_id, mime_type, file_id)
-    print('Updated list copied to G-Drive')    
+    # filename = 'EarningsTranscriptList.csv'
+    # file_id = files2upload[filename][0]
+    # mime_type = files2upload[filename][1]
+    # existingFile_update(service, EarningsTranscriptList, Gfolder_id, mime_type, file_id)
+    # print('Updated list copied to G-Drive')    
     # driver.quit()
 
     # Returning the newly downloaded list to scrape content
